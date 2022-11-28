@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todolist/bloc/create_task_bloc.dart';
-import 'package:todolist/models/task.dart';
-import 'package:todolist/screens/task_page_screen.dart';
 import 'package:todolist/screens/welcomepage_screen.dart';
 import 'package:todolist/widgets/form.dart';
 
@@ -26,11 +24,16 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/': (_) => const HomePage(),
-          TaskPage.routeName: (_) => const TaskPage(),
         },
       ),
     );
   }
+}
+
+enum SortType {
+  allTasks,
+  favouriteTasks,
+  doneTasks,
 }
 
 class HomePage extends StatefulWidget {
@@ -60,6 +63,25 @@ class _HomePageState extends State<HomePage> {
               },
               icon: const Icon(Icons.add)),
         ],
+        leading: PopupMenuButton<SortType>(
+            // Callback that sets the selected popup menu item.
+            onSelected: (SortType type) {
+              setState(() {});
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<SortType>>[
+                  const PopupMenuItem<SortType>(
+                    value: SortType.allTasks,
+                    child: Text('Wszystkie'),
+                  ),
+                  const PopupMenuItem<SortType>(
+                    value: SortType.favouriteTasks,
+                    child: Text('Ulubione'),
+                  ),
+                  const PopupMenuItem<SortType>(
+                    value: SortType.doneTasks,
+                    child: Text('Ukończone'),
+                  ),
+                ]),
       ),
       body: const WelcomePage(),
     );
