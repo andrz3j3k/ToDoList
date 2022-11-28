@@ -12,12 +12,15 @@ class CreateTaskBloc extends Bloc<CreateTaskEvent, CreateTaskState> {
       emit(CreateTaskInitial());
       emit(CreateTaskLoading());
       var task = Task(
-          id: event.id,
-          name: event.name,
-          description: event.description,
-          date: event.date);
+        id: event.id,
+        name: event.name,
+        description: event.description,
+        date: event.date,
+        isFavourite: event.isFavourite,
+      );
+
       Task.listTasks.add(task);
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 200));
       emit(CreateTaskLoaded(Task.listTasks));
     });
   }

@@ -5,16 +5,17 @@ part of 'create_task_bloc.dart';
 abstract class CreateTaskEvent extends Equatable {}
 
 class TaskCreated extends CreateTaskEvent {
-  TaskCreated({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.date,
-  });
+  TaskCreated(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.date,
+      required this.isFavourite});
   final String id;
   final String name;
   final String description;
-  final String date;
+  final DateTime date;
+  final bool isFavourite;
 
   @override
   List<Object?> get props => [];
