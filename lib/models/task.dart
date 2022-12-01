@@ -13,5 +13,4 @@ class Task {
     this.date,
     this.isFavourite,
   });
-  static List<Task> listTasks = [];
 }

@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CreateTaskBloc(),
+      create: (context) => TaskBloc(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -66,6 +66,7 @@ class _HomePageState extends State<HomePage> {
         leading: PopupMenuButton<SortType>(
             // Callback that sets the selected popup menu item.
             onSelected: (SortType type) {
+              context.read<TaskBloc>().add(TaskSortedEvent(type));
               setState(() {});
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<SortType>>[

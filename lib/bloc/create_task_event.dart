@@ -1,11 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'create_task_bloc.dart';
 
-@immutable
-abstract class CreateTaskEvent extends Equatable {}
+abstract class TaskEvent extends Equatable {}
 
-class TaskCreated extends CreateTaskEvent {
-  TaskCreated(
+class TaskCreatedEvent extends TaskEvent {
+  TaskCreatedEvent(
       {required this.id,
       required this.name,
       required this.description,
@@ -16,6 +14,14 @@ class TaskCreated extends CreateTaskEvent {
   final String description;
   final DateTime date;
   final bool isFavourite;
+
+  @override
+  List<Object?> get props => [];
+}
+
+class TaskSortedEvent extends TaskEvent {
+  final SortType _sortType;
+  TaskSortedEvent(this._sortType);
 
   @override
   List<Object?> get props => [];

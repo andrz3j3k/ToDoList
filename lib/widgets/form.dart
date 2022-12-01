@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todolist/models/task.dart';
 import '../bloc/create_task_bloc.dart';
+import '../repository/repository.dart';
 
 class SheetForm extends StatefulWidget {
   const SheetForm({super.key});
@@ -131,13 +132,14 @@ class _SheetFormState extends State<SheetForm> {
   }
 
   void addTask(String name, String description, DateTime date) {
+    var repository = Repository.getInstance();
     int numberId;
     numberId = Random().nextInt(10000);
-    while (Task.listTasks.any((element) => element.id == numberId)) {
+    while (repository!.listTask!.any((element) => element.id == numberId)) {
       numberId = Random().nextInt(10000);
     }
-    context.read<CreateTaskBloc>().add(
-          TaskCreated(
+    context.read<TaskBloc>().add(
+          TaskCreatedEvent(
             id: numberId.toString(),
             name: name,
             description: description,

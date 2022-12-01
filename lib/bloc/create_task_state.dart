@@ -1,17 +1,16 @@
 part of 'create_task_bloc.dart';
 
-@immutable
-abstract class CreateTaskState {}
+abstract class TaskState {}
 
-class CreateTaskInitial extends CreateTaskState {
-  CreateTaskInitial();
+class TaskInitialState extends TaskState {
+  TaskInitialState();
 }
 
-class CreateTaskLoading extends CreateTaskState {
-  CreateTaskLoading();
+class TaskLoadingState extends TaskState {
+  TaskLoadingState();
 }
 
-class CreateTaskLoaded extends CreateTaskState {
-  CreateTaskLoaded(this.listTask);
+class TaskLoadedState extends TaskState {
+  TaskLoadedState(this.listTask);
   List<Task> listTask;
 }

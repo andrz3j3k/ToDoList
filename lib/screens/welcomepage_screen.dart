@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todolist/bloc/create_task_bloc.dart';
-import 'package:todolist/main.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({
@@ -18,13 +17,13 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
-      child: BlocBuilder<CreateTaskBloc, CreateTaskState>(
+      child: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
-          if (state is CreateTaskInitial) {
+          if (state is TaskInitialState) {
             return const Center(
               child: Text("Brak nowych zadań!"),
             );
-          } else if (state is CreateTaskLoaded) {
+          } else if (state is TaskLoadedState) {
             var list = state.listTask;
 
             return SingleChildScrollView(
