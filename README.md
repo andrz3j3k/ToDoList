@@ -1,17 +1,20 @@
-# todolist
 
-A new Flutter project.
+# To do List
 
-## Getting Started
+Projekt zrobiony za pomocą wzorców projektowych takich jak m.in. bloc oraz singleton.
 
-This project is a starting point for a Flutter application.
+Aplikacja służy do tworzenia zadań, które należy wykonywać systematycznie, tzw. ToDoList, czyli lista aktualnych zadań.
 
-A few resources to get you started if this is your first Flutter project:
+Ten krótki projekt uważam za zakończony. Jest to dosyć skromna wersja, może posiadać błędy.
+Brakuje polskiej wersji kalendarza.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# ToDoList
+
+## Zrzuty ekranu
+
+![App Screenshot](https://github.com/andrz3j3k/ToDoList/blob/main/ScreenShot/simulator_screenshot_B06DA066-CA91-4714-B5D7-6FD799E0C9F0.png?raw=true)
+![App Screenshot](https://github.com/andrz3j3k/ToDoList/blob/main/ScreenShot/simulator_screenshot_29CF8891-7705-4590-A511-1BEE1BC3D18C.png?raw=true)
+![App Screenshot](https://github.com/andrz3j3k/ToDoList/blob/main/ScreenShot/simulator_screenshot_7A209590-AB17-4875-84D4-8778D77E2BBF.png?raw=true)
+![App Screenshot](https://github.com/andrz3j3k/ToDoList/blob/main/ScreenShot/simulator_screenshot_3D4B01F4-2E62-4D0A-B586-4ED7E3DB7840.png?raw=true)
+
+
