@@ -9,3 +9,10 @@ class Repository {
     return _repository;
   }
 }
+
+enum SortType {
+  during,
+  allTasks,
+  favouriteTasks,
+  doneTasks,
+}

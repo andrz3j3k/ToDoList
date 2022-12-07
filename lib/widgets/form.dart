@@ -1,8 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todolist/models/task.dart';
+import 'package:intl/intl.dart';
 import '../bloc/create_task_bloc.dart';
 import '../repository/repository.dart';
 
@@ -16,12 +15,20 @@ class SheetForm extends StatefulWidget {
 class _SheetFormState extends State<SheetForm> {
   late TextEditingController _controllerTitle;
   late TextEditingController _controllerDescription;
-  bool isFavourite = false;
+
+  bool _isFavourite = false;
+
+  // choose date
+  DateTime _dateTime = DateTime.now();
+
+  String _text = "Wybierz datę!";
+
   final _form = GlobalKey<FormState>();
   @override
   void initState() {
     _controllerTitle = TextEditingController();
     _controllerDescription = TextEditingController();
+
     super.initState();
   }
 
@@ -29,14 +36,31 @@ class _SheetFormState extends State<SheetForm> {
   void dispose() {
     _controllerDescription.dispose();
     _controllerTitle.dispose();
+
     super.dispose();
+  }
+
+  void _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      context: context,
+      initialDate: _dateTime,
+      firstDate: DateTime(1901),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null && picked != _dateTime) {
+      setState(() {
+        _dateTime = picked;
+        _text = DateFormat("dd-MM-yyyy").format(_dateTime).toString();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final device = MediaQuery.of(context).size;
     return SizedBox(
-      height: device.height * 0.28,
+      height: device.height * 0.35,
       child: Container(
         padding:
             const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
@@ -79,6 +103,19 @@ class _SheetFormState extends State<SheetForm> {
                       ),
                     ],
                   )),
+              Row(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                        onPressed: () {
+                          _selectDate(context);
+                        },
+                        icon: const Icon(Icons.date_range)),
+                  ),
+                  Text(_text),
+                ],
+              ),
               const SizedBox(
                 height: 30,
               ),
@@ -91,12 +128,12 @@ class _SheetFormState extends State<SheetForm> {
                       splashRadius: 20,
                       onPressed: () {
                         setState(() {
-                          isFavourite = !isFavourite;
+                          _isFavourite = !_isFavourite;
                         });
                       },
                       icon: Icon(
                         Icons.favorite,
-                        color: isFavourite
+                        color: _isFavourite
                             ? const Color.fromRGBO(138, 222, 157, 87)
                             : Colors.black,
                         size: 27,
@@ -112,7 +149,7 @@ class _SheetFormState extends State<SheetForm> {
                         addTask(
                           _controllerTitle.text,
                           _controllerDescription.text,
-                          DateTime.now(),
+                          _dateTime,
                         );
                       },
                       icon: const Icon(
@@ -135,7 +172,8 @@ class _SheetFormState extends State<SheetForm> {
     var repository = Repository.getInstance();
     int numberId;
     numberId = Random().nextInt(10000);
-    while (repository!.listTask!.any((element) => element.id == numberId)) {
+    while (repository!.listTask!
+        .any((element) => element.id! == numberId.toString())) {
       numberId = Random().nextInt(10000);
     }
     context.read<TaskBloc>().add(
@@ -144,7 +182,7 @@ class _SheetFormState extends State<SheetForm> {
             name: name,
             description: description,
             date: date,
-            isFavourite: isFavourite,
+            isFavourite: _isFavourite,
           ),
         );
     Navigator.pop(context);

@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todolist/bloc/create_task_bloc.dart';
 
+import '../repository/repository.dart';
+
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({
-    super.key,
-  });
+  WelcomePage({super.key, required this.sortType});
+  SortType sortType;
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
@@ -111,6 +112,8 @@ class _WelcomePageState extends State<WelcomePage> {
                                       onPressed: () {
                                         setState(() {
                                           e.isDone = !e.isDone;
+                                          context.read<TaskBloc>().add(
+                                              TaskSortedEvent(widget.sortType));
                                         });
                                       },
                                       icon: Icon(
@@ -125,6 +128,8 @@ class _WelcomePageState extends State<WelcomePage> {
                                       onPressed: () {
                                         setState(() {
                                           e.isFavourite = !e.isFavourite!;
+                                          context.read<TaskBloc>().add(
+                                              TaskSortedEvent(widget.sortType));
                                         });
                                       },
                                       icon: Icon(

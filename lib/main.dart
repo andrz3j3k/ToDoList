@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todolist/bloc/create_task_bloc.dart';
+import 'package:todolist/repository/repository.dart';
 import 'package:todolist/screens/welcomepage_screen.dart';
 import 'package:todolist/widgets/form.dart';
 
@@ -23,32 +25,41 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routes: {
-          '/': (_) => const HomePage(),
+          '/': (_) => HomePage(),
         },
       ),
     );
   }
 }
 
-enum SortType {
-  allTasks,
-  favouriteTasks,
-  doneTasks,
-}
-
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  SortType sortType = SortType.during;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  String namePage(SortType sortType) {
+    switch (sortType) {
+      case SortType.during:
+        return "W trakcie";
+      case SortType.allTasks:
+        return "Wszystkie";
+      case SortType.favouriteTasks:
+        return "Ulubione";
+      case SortType.doneTasks:
+        return "Ukończone";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Strona główna"),
+        title: Text(namePage(widget.sortType)),
         actions: [
           IconButton(
               onPressed: () {
@@ -57,7 +68,11 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(30)),
                   context: context,
                   builder: (context) {
-                    return const SheetForm();
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: const SheetForm(),
+                    );
                   },
                 );
               },
@@ -67,9 +82,14 @@ class _HomePageState extends State<HomePage> {
             // Callback that sets the selected popup menu item.
             onSelected: (SortType type) {
               context.read<TaskBloc>().add(TaskSortedEvent(type));
+              widget.sortType = type;
               setState(() {});
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<SortType>>[
+                  const PopupMenuItem<SortType>(
+                    value: SortType.during,
+                    child: Text('W trakcie'),
+                  ),
                   const PopupMenuItem<SortType>(
                     value: SortType.allTasks,
                     child: Text('Wszystkie'),
@@ -84,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ]),
       ),
-      body: const WelcomePage(),
+      body: WelcomePage(sortType: widget.sortType),
     );
   }
 }

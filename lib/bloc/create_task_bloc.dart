@@ -22,8 +22,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       );
       var repository = Repository.getInstance();
       repository!.listTask!.add(task);
+      List<Task> repositoryToSend = [];
+      for (var element in repository.listTask!) {
+        if (element.isDone == false) {
+          repositoryToSend.add(element);
+        }
+      }
       await Future.delayed(const Duration(milliseconds: 200));
-      emit(TaskLoadedState(repository.listTask!));
+      emit(TaskLoadedState(repositoryToSend));
     });
 
     on<TaskSortedEvent>((event, emit) async {
@@ -33,6 +39,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       List<Task> list = repository!.listTask!;
       List<Task> listed = [];
       switch (event._sortType) {
+        case SortType.during:
+          for (var element in list) {
+            if (element.isDone == false) {
+              listed.add(element);
+            }
+          }
+          break;
         case SortType.allTasks:
           listed = list;
           break;
